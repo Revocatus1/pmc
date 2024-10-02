@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e9eff1; /* Light gray background */
+            color: #333; /* Dark text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff; /* White background for the form */
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        h1 {
+            color: #1877f2; /* Facebook blue for headings */
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #1877f2; /* Facebook blue */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            width: 100%; /* Full width */
+        }
+        button:hover {
+            background-color: #166fe5; /* Darker blue on hover */
+        }
+        .link {
+            color: #1877f2;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 10px;
+            display: block;
+        }
+        .loading {
+            color: #ff8c00; /* Orange color for loading text */
+        }
+        .hidden { 
+            display: none; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Create Account</h1>
+        <form id="createAccountForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+            <button type="submit">Create Account</button>
+        </form>
+        <p id="createMessage"></p>
+        <p id="uniqueCodeDisplay" class="hidden"></p>
+        <p id="loadingMessage" class="hidden loading">Please wait, generating your unique code...</p>
+        <a href="login.html" class="link">Already have an account? Log in</a>
+    </div>
+
+    <script>
+        // Handle account creation
+        document.getElementById('createAccountForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Show loading message
+            document.getElementById('loadingMessage').classList.remove('hidden');
+            document.getElementById('createMessage').innerText = '';
+            document.getElementById('uniqueCodeDisplay').classList.add('hidden');
+
+            // Simulate unique code generation with a delay
+            setTimeout(() => {
+                const uniqueCode = Math.random().toString(36).substr(2, 8); // Generate a unique code
+
+                // Store in localStorage
+                localStorage.setItem(username, JSON.stringify({ password, uniqueCode }));
+
+                document.getElementById('loadingMessage').classList.add('hidden');
+                document.getElementById('createMessage').innerText = 'Account created successfully!';
+                document.getElementById('uniqueCodeDisplay').innerText = `Your unique code: ${uniqueCode}`;
+                document.getElementById('uniqueCodeDisplay').classList.remove('hidden');
+
+                // Reset form
+                document.getElementById('createAccountForm').reset();
+            }, 3000); // Simulate 3 seconds delay for code generation
+        });
+    </script>
+
+</body>
+</html>
